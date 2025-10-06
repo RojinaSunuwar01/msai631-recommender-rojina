@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>MSAI631 Recommender – Rojina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <style> body{padding:2rem} </style>
+</head>
+<body>
+  <h1 class="mb-3">Movie Recommender (AI/HCI)</h1>
+  <form method="POST" action="/recommend" class="row g-3 mb-4">
+    <div class="col-auto">
+      <label for="user_id" class="col-form-label">User ID</label>
+    </div>
+    <div class="col-auto">
+      <input id="user_id" name="user_id" type="number" class="form-control" value="{{ user_id or 1 }}" min="1">
+    </div>
+    <div class="col-auto">
+      <label for="n" class="col-form-label">Top N</label>
+    </div>
+    <div class="col-auto">
+      <input id="n" name="n" type="number" class="form-control" value="{{ n or 10 }}" min="1" max="50">
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-primary">Recommend</button>
+    </div>
+  </form>
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  {% if table %}
+    <h5>Results</h5>
+    {{ table|safe }}
+    <p class="text-muted">Tip: copy a movieId from the table and call
+      <code>/api/explain?user_id={{ user_id or 1 }}&amp;movie_id=&lt;movieId&gt;</code>
+      to see “why this?”</p>
+  {% else %}
+    <p class="text-muted">Try user IDs 1–610 (from MovieLens small). Example: 1 with Top N = 10.</p>
+  {% endif %}
+</body>
+</html>
